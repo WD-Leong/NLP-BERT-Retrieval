@@ -70,4 +70,14 @@ Top 5 match (distance = 4.740176):
 average food for super expensive prices .
 --------------------------------------------------
 ```
+## Masked Language Modelling
+An extension has been added to include Masked Language Modelling (MLM) to try to enhance the retrieval results. The training of the model can be done via
+```
+python train_reddit_jokes_tf_ver2_bert_triplet_mlm.py
+```
+and inference can be done via
+```
+python infer_reddit_jokes_tf_ver2_bert_triplet_mlm.py
+```
+for Reddit Jokes dataset. This implementation uses the averaged BERT output embeddings to regularize the `CLS` token's embedding.
 
