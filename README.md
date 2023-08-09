@@ -97,7 +97,11 @@ python infer_fraser_jokes_tf_ver2_robert_retrieval.py
 ```
 and enter a query to start retrieving relevant jokes from the document set.
 
-After training, the word embeddings can be checked by running `check_vocab_fraser_jokes_tf_ver2_robert_mlm_retrieval.py` to verify that the model is satisfactorily trained:
+After training, the word embeddings can be checked by running
+```
+check_vocab_fraser_jokes_tf_ver2_robert_mlm_retrieval.py
+```
+to verify that the model is satisfactorily trained:
 ```
 ==================================================
 Enter word: donkey
@@ -162,3 +166,83 @@ Why did the chicken cross the road? To show the deer how it's done.
 --------------------------------------------------
 ```
 
+## GPT Language Model
+Apart from Masked Language Models, the causal language model used to train [GPT models](https://openai.com/research/language-unsupervised) is also applied. The training losses is similar to the ones used in the MLM, in particular the modified positive and negative distance loss as well as a language model loss. Similar to the MLM steps, run
+```
+python process_fraser_jokes_word.py
+python train_fraser_jokes_tf_ver2_gpt_retrieval.py
+```
+to train the model, and
+```
+python infer_fraser_jokes_tf_ver2_gpt_retrieval.py
+```
+to perform inference. 
+
+To check that the GPT model has learnt the word embeddings properly, run
+```
+python check_vocab_fraser_jokes_tf_ver2_gpt_retrieval.py
+```
+and key in some words to verify that the embeddings make sense:
+```
+==================================================
+Enter word: donkey
+Top match (Distance: 0.384)  --  gorilla
+2nd match (Distance: 0.387)  --  tornado
+3rd match (Distance: 0.397)  --  condom
+==================================================
+Enter word: bar
+Top match (Distance: 0.436)  --  pub
+2nd match (Distance: 0.509)  --  bra
+3rd match (Distance: 0.522)  --  barman
+==================================================
+Enter word: man
+Top match (Distance: 0.361)  --  guy
+2nd match (Distance: 0.436)  --  woman
+3rd match (Distance: 0.443)  --  horse
+==================================================
+```
+Examples of retrieved documents (jokes):
+```
+Enter phrase: man bar
+Euclidean Distance:
+Top 1 match (distance = 3.691948):
+A man walked into a bar Ouch
+==================================================
+Euclidean Distance:
+Top 2 match (distance = 3.691948):
+A man walked into a bar Ouch!
+==================================================
+Euclidean Distance:
+Top 3 match (distance = 3.9540327):
+A man walks into a bar Ouch!!!, he says.
+==================================================
+Euclidean Distance:
+Top 4 match (distance = 4.3095984):
+a man walks into a bar Ouch! he said.
+==================================================
+Euclidean Distance:
+Top 5 match (distance = 4.3497777):
+A man walks into a bar ouch, that hurt!
+--------------------------------------------------
+Enter phrase: chicken road
+Euclidean Distance:
+Top 1 match (distance = 5.8739386):
+Why'd the chicken cross the road Wtf Idk
+==================================================
+Euclidean Distance:
+Top 2 match (distance = 8.412094):
+Why did the chicken cross the road? Black lives matter.
+==================================================
+Euclidean Distance:
+Top 3 match (distance = 8.816555):
+Why did the cow cross the road To get to the udder side
+==================================================
+Euclidean Distance:
+Top 4 match (distance = 8.849802):
+Why did the chicken cross the road twice? Because it was a double-crosser
+==================================================
+Euclidean Distance:
+Top 5 match (distance = 9.137041):
+Why did leeroy Jenkins cross the road To get the chicken
+--------------------------------------------------
+```
